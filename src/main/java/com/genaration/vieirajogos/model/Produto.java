@@ -1,5 +1,6 @@
 package com.genaration.vieirajogos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -21,6 +22,10 @@ public class Produto {
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer = 3, fraction = 2)
     private BigDecimal preco;
+
+    @ManyToOne
+    @JsonIgnoreProperties("produto")
+    private Categoria categoria;
 
     public Long getId() {
         return id;
@@ -44,5 +49,13 @@ public class Produto {
 
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

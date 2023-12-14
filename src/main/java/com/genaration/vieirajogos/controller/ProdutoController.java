@@ -1,6 +1,8 @@
 package com.genaration.vieirajogos.controller;
 
+import com.genaration.vieirajogos.model.Categoria;
 import com.genaration.vieirajogos.model.Produto;
+import com.genaration.vieirajogos.repository.CategoriaRepository;
 import com.genaration.vieirajogos.repository.ProdutoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
     @GetMapping
     public ResponseEntity<List<Produto>> getAll() {
         return ResponseEntity.ok(produtoRepository.findAll());
@@ -41,13 +46,19 @@ public class ProdutoController {
 
     @PostMapping
     public ResponseEntity<Produto> post(@RequestBody Produto produto) {
-        return ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto));
+        if (categoriaRepository.existsById(produto.getCategoria().getId()))
+            return ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto));
+
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria inexistente!", null);
     }
 
     @PutMapping
     public ResponseEntity<Produto> update(@Valid @RequestBody Produto produto) {
         if (produtoRepository.existsById(produto.getId())) {
-            return ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto));
+            if (categoriaRepository.existsById(produto.getCategoria().getId())) {
+                return ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto));
+            }
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria inexistente!", null);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
