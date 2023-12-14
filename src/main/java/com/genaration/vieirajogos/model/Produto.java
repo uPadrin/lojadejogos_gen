@@ -20,7 +20,7 @@ public class Produto {
     private String nome;
 
     @DecimalMin(value = "0.0", inclusive = false)
-    @Digits(integer = 3, fraction = 2)
+    @Column(precision = 10, scale = 2)
     private BigDecimal preco;
 
     @ManyToOne
