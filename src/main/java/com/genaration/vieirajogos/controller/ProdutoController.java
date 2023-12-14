@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Produto> post(@RequestBody Produto produto) {
+    public ResponseEntity<Produto> post(@Valid @RequestBody Produto produto) {
         if (categoriaRepository.existsById(produto.getCategoria().getId()))
             return ResponseEntity.status(HttpStatus.OK).body(produtoRepository.save(produto));
 
@@ -73,6 +74,13 @@ public class ProdutoController {
 
         produtoRepository.deleteById(id);
     }
+
+    @GetMapping("/menor/{preco}")
+    public ResponseEntity<List<Produto>> getByPrecoMenor(@PathVariable BigDecimal preco) {
+        return ResponseEntity.ok(produtoRepository.findAllByPrecoLessThan(preco));
+    }
+    @GetMapping("/maior/{preco}")
+    public ResponseEntity<List<Produto>> getByPrecoMaior(@PathVariable BigDecimal preco) {
+        return ResponseEntity.ok(produtoRepository.findAllByPrecoGreaterThan(preco));
+    }
 }
-
-
