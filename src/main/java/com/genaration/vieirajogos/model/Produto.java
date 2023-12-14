@@ -2,13 +2,12 @@ package com.genaration.vieirajogos.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table (name = "tb_produtos")
-public class produto {
+public class Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +18,7 @@ public class produto {
     @Size(min = 5, max = 100, message = "")
     private String nome;
 
-    @NotNull (message = "Preço é um campo obrigatirio")
-    @DecimalMin(value = "0,0", inclusive = false)
+    @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer = 3, fraction = 2)
     private BigDecimal preco;
 
