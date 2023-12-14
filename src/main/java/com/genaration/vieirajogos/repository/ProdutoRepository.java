@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-public List<Produto> findAllByNomeContainingIgnoreCase(@Param("nome")String nome);
-public List<Produto> findAllByPrecoLessThan(@Param("precoMenor")BigDecimal preco);
+public List<Produto> findByNomeContainingIgnoreCase(@Param("nome")String nome);
+public List<Produto> findByPrecoLessThan(@Param("precoMenor")BigDecimal preco);
 
-    public List<Produto> findAllByPrecoGreaterThan(@Param("precoMaior")BigDecimal preco);
+    public List<Produto> findByPrecoGreaterThan(@Param("precoMaior")BigDecimal preco);
 }
