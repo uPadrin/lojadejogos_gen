@@ -1,6 +1,6 @@
-package com.genaration.vieirajogos.repository;
+package com.generation.vieirajogos.repository;
 
-import com.genaration.vieirajogos.model.Categoria;
+import com.generation.vieirajogos.model.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 

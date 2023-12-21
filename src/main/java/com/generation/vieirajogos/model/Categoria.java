@@ -1,4 +1,4 @@
-package com.genaration.vieirajogos.model;
+package com.generation.vieirajogos.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;

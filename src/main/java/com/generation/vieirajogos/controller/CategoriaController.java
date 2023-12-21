@@ -1,9 +1,7 @@
-package com.genaration.vieirajogos.controller;
+package com.generation.vieirajogos.controller;
 
-import com.genaration.vieirajogos.model.Categoria;
-import com.genaration.vieirajogos.model.Produto;
-import com.genaration.vieirajogos.repository.CategoriaRepository;
-import com.genaration.vieirajogos.repository.ProdutoRepository;
+import com.generation.vieirajogos.model.Categoria;
+import com.generation.vieirajogos.repository.CategoriaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
