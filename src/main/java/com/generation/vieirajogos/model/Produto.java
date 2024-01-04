@@ -23,6 +23,9 @@ public class Produto {
     @Column(precision = 10, scale = 2)
     private BigDecimal preco;
 
+    @Column(columnDefinition = "integer default 0")
+    private int curtir;
+
     @ManyToOne
     @JsonIgnoreProperties("produto")
     private Categoria categoria;
@@ -53,6 +56,14 @@ public class Produto {
 
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
+    }
+
+    public int getCurtir() {
+        return curtir;
+    }
+
+    public void setCurtir(int curtir) {
+        this.curtir = curtir;
     }
 
     public Categoria getCategoria() {

@@ -3,6 +3,7 @@ package com.generation.vieirajogos.controller;
 import com.generation.vieirajogos.model.Produto;
 import com.generation.vieirajogos.repository.CategoriaRepository;
 import com.generation.vieirajogos.repository.ProdutoRepository;
+import com.generation.vieirajogos.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,9 @@ public class ProdutoController {
 
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private ProdutoService produtoService;
 
     @GetMapping
     public ResponseEntity<List<Produto>> getAll() {
@@ -81,5 +85,12 @@ public class ProdutoController {
     @GetMapping("/maior/{preco}")
     public ResponseEntity<List<Produto>> getByPrecoMaior(@PathVariable BigDecimal preco) {
         return ResponseEntity.ok(produtoRepository.findByPrecoGreaterThan(preco));
+    }
+
+    @PutMapping("curtir/{id}")
+    public ResponseEntity<Produto> curtir(@PathVariable Long id){
+        return produtoService.curtir(id)
+                .map(resposta -> ResponseEntity.ok(resposta))
+                .orElse(ResponseEntity.badRequest().build());
     }
 }

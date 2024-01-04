@@ -1,5 +1,6 @@
 package com.generation.vieirajogos.service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import com.generation.vieirajogos.model.Usuario;
@@ -15,8 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-
-
 @Service
 public class UsuarioService {
 
@@ -30,14 +29,21 @@ public class UsuarioService {
     private AuthenticationManager authenticationManager;
 
     public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
+        if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent()) {
+            return Optional.empty(); // Retorna vazio se o usuário já existir
+        }
 
-        if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
-            return Optional.empty();
+        // Verifica a idade do usuário
+        LocalDate dataNascimento = usuario.getDataNascimento();
+        LocalDate dataLimite = LocalDate.now().minusYears(18); // Data limite para ser maior de 18 anos
+
+        if (dataNascimento.isAfter(dataLimite)) {
+            return Optional.empty(); // Retorna vazio se o usuário for menor de 18 anos
+        }
 
         usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
         return Optional.of(usuarioRepository.save(usuario));
-
     }
 
     public Optional<Usuario> atualizarUsuario(Usuario usuario) {

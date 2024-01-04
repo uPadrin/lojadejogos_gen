@@ -20,6 +20,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+
+@Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -34,7 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
 
-        try{
+        try {
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 token = authHeader.substring(7);
                 username = jwtService.extractUsername(token);
@@ -52,8 +55,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
 
-        }catch(ExpiredJwtException | UnsupportedJwtException | MalformedJwtException
-               | SignatureException | ResponseStatusException e){
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException
+                 | SignatureException | ResponseStatusException e) {
             response.setStatus(HttpStatus.FORBIDDEN.value());
             return;
         }
